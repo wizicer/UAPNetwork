@@ -1,0 +1,14 @@
+Bind|0x00000065|请求连接:SystemId|11&Password|9&SystemType|13&InterfaceVersion|U4
+BindResp|0x00000067|请求连接应答:SystemID|11
+Unbind|0x00000066|终止连接:
+UnbindResp|0x00000068|终止连接应答:
+EnquireLink|0x00000083|握手请求:
+EnquireLinkResp|0x00000084|握手应答:
+Begin|0x0000006F|开始USSD会话:UssdVersion|U1&UssdOpType|U1&MsIsdn|21&ServiceCode|21&CodeScheme|U1&UssdContent|0
+Continue|0x00000070|继续USSD会话:UssdVersion|U1&UssdOpType|U1&MsIsdn|21&ServiceCode|21&CodeScheme|U1&UssdContent|0
+End|0x00000071|结束USSD会话:UssdVersion|U1&UssdOpType|U1&MsIsdn|21&ServiceCode|21&CodeScheme|U1&Ussd_Content|0
+Abort|0x00000072|中止USSD会话:
+Switch|0x00000074|USSD会话转移:SwitchMode|U1&MsIsdn|21&OrgServiceCode|21&DestServiceCode|21&UssdContent|0
+Chargeind|0x00000075|计费指示:ChargeRatio|U4&ChargeType|U4&ChargeResource|21&ChargeLocation|U1
+ChargeindResp|0x00000076|计费指示应答:
+SwitchBegin|0x00000077|开始转移USSD会话:UssdVersion|U1&UssdOpType|U1&MsIsdn|21&OrgServiceCode|21&DestServiceCode|21&CodeScheme|U1&UssdContent|0

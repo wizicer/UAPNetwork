@@ -1,0 +1,36 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="True" Description="Generate SQL Insert Statements from table data." ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Design" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Assembly Name="CodeSmith.CustomProperties" %>
+<%@ Assembly Name="System" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+
+
+<%@ Property Category="Data" Name="SourceTable" Optional="False"
+    Type="CodeSmith.CustomProperties.StringCollection" 
+    Description="Data Source" %>
+<% foreach (String line in this.SourceTable) {  %>
+<% 
+string[] strs = line.Split(new string[]{":"}, StringSplitOptions.RemoveEmptyEntries);
+string[] str1 = strs[0].Split(new string[]{"|"}, StringSplitOptions.RemoveEmptyEntries);
+string[] str2 = null;
+List<KeyValuePair<string, string>> strPair = new List<KeyValuePair<string, string>>();
+if (strs.Length > 1)
+{
+    str2 = strs[1].Split(new string[]{"&"}, StringSplitOptions.RemoveEmptyEntries);
+    for (int i = 0; i < str2.Length; ++i)
+    {
+        string[] tempStr = str2[i].Split(new string[]{"|"}, StringSplitOptions.RemoveEmptyEntries);
+        strPair.Add(new KeyValuePair<string, string>(tempStr[0], tempStr[1]));
+    }
+}
+string uapPacketName = str1[0]; 
+string uapSummary = str1[2]; 
+%>
+        /// <summary>
+        /// 当从通讯接口收到一个Uap<%=uapPacketName%>包时触发
+        /// </summary>
+        public event Uap<%=uapPacketName%>EventHandler On<%=uapPacketName%>Event;
+<% } %>
