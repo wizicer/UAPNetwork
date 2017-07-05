@@ -1,4 +1,5 @@
 UAPNetwork
+ UAP is : reliability, real time, fairness, file-transport, P2P-friendliness and TCP-friendliness. UAP is designed to be connectionless; as a result, the interface is very succinct. Our experimental results justify that UAP is a promising protocol for certain applications.
 ==========
 
 wrapper for UAP protocol which is widely used in USSD channel of mobile service in china
@@ -12,42 +13,42 @@ this project may not be the best reference for study C# code. Read it on your ow
 I would improve it if someone STARRED this project
 
 
-# Router模式 简介 -- 通讯中间件构架解决方案
+# Router Introduction to the model -- Communication middleware architecture solution
 
-## 功能概述 
+## Functional overview
 
-Router模式是模仿局域网信息传输的一种模式，内部设计出很多个用于连接不同地方的通讯设备（Communicator），内部用IP地址（IPAddress）标识各个通讯设备，通过设备间的信息的分发，可以达到信息的多向转发。
+Router Mode is to imitate the LAN information transmission A pattern Internal design of a number of communication equipment used to connect different places Communicator），Internal use IP address（IPAddress）Identify each communication device Through the distribution of information between devices Can achieve multi-directional forwarding of information。
 
-Router模式适用于需要内部信息转发的应用程序，即单/多向通信的中间件。
+Router The pattern is suitable for applications that require internal information forwarding，That is single / Multi-directional communication middleware。
 
-### 内部技术 
+### Internal technology
+// Communicator شخص در تماس 
+-   Internal use SmartThreadPool task scheduling, all sent to the Router information are asynchronous processing, will not block the thread；
+-   During the operation can be dynamically increase or decrease the interface device（Communicator），And control its connection status。
 
--   内部使用SmartThreadPool进行任务的调度，所有发送给Router的信息均为异步处理，不会阻塞线程；
--   运行过程中可动态的增减接口设备（Communicator），并控制其连接状态。
-
-### 应用项目 
+### Application project
 
 -   xxxxxxxxxxxxxxxxxxxx
 -   xxxxxxxxxxxxxxxxxxxx
 -   xxxxxxxxxxxxxxxxxxxx
 -   xxxxxxxxxxxxxxxxxxxx
 
-### 开发特点 
+### Development characteristics
 
--   **快速开发**。可迅速构造多方信息转发的应用程序。
--   **测试方便**。单元化模块，可使测试具有针对性，且方便设计自动化测试程序。
--   **结构清晰**。清晰的结构可以使程序熟悉和排错等工作量大幅度下降。
+-   ** Rapid development **。Can quickly construct multi-party information forwarding applications。
+-   ** Easy to test **。Unit module Can make the test targeted ,And facilitate the design of automated test procedures
+-   ** Clear structure **。 Clear structure can make the program familiar with the troubleshooting and other workloads decreased significantly。
 
-## 算法流程
+## Algorithm flow
 
-### Router模式转发序列图 
+### Router Mode forwarding sequence diagram
 
 ### 接口：ICommunicator\<T\> 
 
 ```cs
 /// \<summary\>
 
-/// 发送信息至接口设备
+/// Send the message to the interface device
 
 /// \</summary\>
 
@@ -55,7 +56,7 @@ bool SendMessageToClient(RoutePacket\<T\> packet);
 
 /// \<summary\>
 
-/// 将数据包转发至内部路由网络的事件
+/// An event that forwards packets to an internal routing network
 
 /// \</summary\>
 
@@ -63,7 +64,7 @@ event SendMessageDelegate\<T\> OnSendMessageToInner;
 
 /// \<summary\>
 
-/// 接口设备的网络地址
+/// The network address of the interface device
 
 /// \</summary\>
 
@@ -71,7 +72,7 @@ string IPAddress { get; set; }
 
 /// \<summary\>
 
-/// 接口设备是否已经连通
+/// Whether the interface device is connected
 
 /// \</summary\>
 
@@ -79,7 +80,7 @@ bool IsConnected { get; set; }
 
 /// \<summary\>
 
-/// 启动接口设备
+/// Start the interface device
 
 /// \</summary\>
 
@@ -87,67 +88,66 @@ bool Start();
 
 /// \<summary\>
 
-/// 停止接口设备
+/// stop
 
 /// \</summary\>
 
 bool Stop();
 ```
 
-#### 常用逻辑一：获取并返回 
+#### Common logic one：Get and return
 
 ```cs
 public bool SendMessageToClient(RoutePacket\<PTA\> packet)
 {
-    // 根据Packet内容发送至客户端
-    // 并同步的等待客户端返回信息
+    // according to Packet Content is sent to the client
+    // And wait for the client to return information synchronously
     byte[] buff = webClient.DownloadData(url);
     string response = Encoding.UTF8.GetString(buff);
     DownPTA downPTA = new DownPTA(){ ShortMessage = message };
     OnSendMessageToInner(new RoutePacket\<PTA\>() { Destination = new
     string[] { "Portal" }, Packet = downPTA, Source = IPAddress });
-} 
+} 
 ```
 
-#### 常用逻辑二：发送返回分离 
+#### Commonly used logic II：Send return separation
 
 ```cs
 public bool SendMessageToClient(RoutePacket\<PTA\> packet)
 {
-    // 根据Packet内容发送至客户端
+    // according to Packet Content is sent to the client
     Channel.Send(Encoding.BigEndianUnicode.GetBytes(pta.ToString()));
-} 
+} 
 private void ReadCallback(IAsyncResult ar)
 {
-    // 处理收到的数据
-    // 并转发至Router
+    // Processing the received data
+    // And forwarded to Router
     OnSendMessageToInner(new RoutePacket\<PTA\>() { Destination = new
     string[] { "Portal" }, Packet = downPTA, Source = IPAddress });
 }
 ```
 
-## 系统构架
+## System architecture
 
-### 模块说明 
+### Module description
 
 -   Router：
 -   GatewayCommunicator：
 -   LogServerCommunicator：
 -   CPCommunicator：
 
-## 可扩展性
+## Extensibility
 
-### 使用Adapter模式扩展Router 
+### use Adapter Mode extension Router 
 
-传输通道
-
-（可选用Socket/WCF等）
+Transmission channel
+（ Socket/WCF Wait）
 
 …………Socket…………
 
-未用Adapter模式：
+Unused Adapter mode ：
 
-使用Adapter模式：
+Use Adapter mode ：
 
 Communicator
 
@@ -155,19 +155,19 @@ Device
 
 Communicator
 
-### 分布式 
+### distributed
 
--   通过增加LoadManager，并且使用类似于Adjuster的方式与各个子设备之间的调节控制，使得分布式的实现；
--   LoadManager类似于会话管理，用于管理多个分布式服务器的状态会话。
+-   By adding LoadManager，And use something similar to that Adjuster And the adjustment between the various sub-devices control ，Making a distributed implementation；
+-   LoadManager Similar to session management Used to manage state sessions for multiple distributed servers。
 
 
-尚需完善的部分 
+Still need to improve the part
 ==============
 
--   更多的测试；
--   各种异常信息的定义及日志记录；
--   内部设备的IP地址改为非字符串型；
--   增加IP分配和寻找机制。
+-   More tests；
+-   Definition and Logging of Various Abnormal Information；
+-   Internal equipment IP The address is changed to a non-string type；
+-   increase IP Allocation and search mechanism 。
 
 # License
 
@@ -186,3 +186,5 @@ Communicator
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
