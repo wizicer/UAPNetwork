@@ -1,8 +1,9 @@
 UAPNetwork
- UAP is : reliability, real time, fairness, file-transport, P2P-friendliness and TCP-friendliness. UAP is designed to be connectionless; as a result, the interface is very succinct. Our experimental results justify that UAP is a promising protocol for certain applications.
 ==========
-
+UAP is : reliability, real time, fairness, file-transport, P2P-friendliness and TCP-friendliness. 
+UAP is designed to be connectionless; as a result, the interface is very succinct. Our experimental results justify that UAP is a promising protocol for certain applications.
 wrapper for UAP protocol which is widely used in USSD channel of mobile service in china
+
 
 Disclaimer
 ==========
@@ -22,7 +23,7 @@ Router Mode is to imitate the LAN information transmission A pattern Internal de
 Router The pattern is suitable for applications that require internal information forwarding，That is single / Multi-directional communication middleware。
 
 ### Internal technology
-// Communicator شخص در تماس 
+// Communicator 
 -   Internal use SmartThreadPool task scheduling, all sent to the Router information are asynchronous processing, will not block the thread；
 -   During the operation can be dynamically increase or decrease the interface device（Communicator），And control its connection status。
 
