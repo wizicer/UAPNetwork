@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace UAPLibrary.Utility
 {
     public class StringUtility
     {
+        static Encoding ourcoding = Encoding.UTF8;
         public static byte[] GetBytesFromCOctetString(string message, int length)
         {
+
             
             if (message != null && message.Length >= length)
             {
@@ -17,22 +18,13 @@ namespace UAPLibrary.Utility
             byte[] buff = new byte[length];
             if (message == null) return buff;
 
-            byte[] msgbuff = Encoding.UTF8.GetBytes(message);
+            byte[] msgbuff = ourcoding.GetBytes(message);
             for (int i = 0; i < msgbuff.Length; i++)
             {
                 buff[i] = msgbuff[i];
             }
             return buff;
         
-        }
-        internal static IEnumerable<byte> GetBytesFromOctetString(string p)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(p);
-           //string resultString = Encoding.UTF8.GetString(bytes);
-            List<byte> buff = new List<byte>();
-            buff.AddRange(bytes);
-            return buff.ToArray();
-             
         }
         public static string GetCOctetStringFromBytes(byte[] buff, int startIndex, int length)
         {
@@ -59,8 +51,19 @@ namespace UAPLibrary.Utility
                 tempbuff.Add(buff[startIndex + i]);
             }
             if (tempbuff.Count == 0) return null;
-            return Encoding.UTF8.GetString(tempbuff.ToArray());
+            string result = ourcoding.GetString(tempbuff.ToArray());
+            return result;
         }
+        internal static byte[] GetBytesFromOctetString(string p)
+        {
+            byte[] bytes = ourcoding.GetBytes(p);
+            string t = ourcoding.GetString(bytes);
+
+            return bytes;
+             
+        }
+
+     
         internal static string GetOctetStringFromBytes(byte[] _packetBytes, int pos)
         {
             
@@ -82,7 +85,7 @@ namespace UAPLibrary.Utility
             {
                 tempbuff.Add(_packetBytes[i++]);
             }
-            string resultString = Encoding.UTF8.GetString(tempbuff.ToArray());
+            string resultString = ourcoding.GetString(tempbuff.ToArray());
             return resultString;
         }
     }
